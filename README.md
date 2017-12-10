@@ -6,12 +6,20 @@ Designed to be used on a RaspberryPi, but could be run on anything with python, 
 Basic installation guide: http://adenforshaw.com/smarter-coffee-machine-raspberry-pi-iot-coffeetime/
 
 Methods: a string passed as the only parameter.
-- "reset" - resets the machine to default settings. Useful to test with and saves your beans.
-- "brew" - Starts brewing with current settings. It'll respond with success, or the appropriate error message.
-- "cups [1..12]" - Sets the cup to whatever you asked. It'll respond with success, or the appropriate error message. You then have to call "brew".
+- "ip" - [mandatory] the ip of the coffee machine
+- "reset" - [optional] resets the machine to default settings. Useful to test with and saves your beans.
+- "brew" - [optional] Starts brewing with current settings. It'll respond with success, or the appropriate error message.
+- "cups [1..12]" - [optional] Sets the cup to whatever you asked. It'll respond with success, or the appropriate error message. You then have to call "brew".
+
+Example:
+```script
+python smarter-coffee-api xxx.xxx.xxx.xxx --cups=3
+```
 
 Response:
-JSON - { code:String, success:Boolean, message:String }
+- success: boolean
+- message: string
+- return_code
 
 Installation:
 - Clone the repo to your machine
