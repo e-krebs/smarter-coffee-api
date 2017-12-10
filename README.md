@@ -8,6 +8,7 @@ Basic installation guide: http://adenforshaw.com/smarter-coffee-machine-raspberr
 Methods: a string passed as the only parameter.
 - "reset" - resets the machine to default settings. Useful to test with and saves your beans.
 - "brew" - Starts brewing with current settings. It'll respond with success, or the appropriate error message.
+- "cups [1..12]" - Sets the cup to whatever you asked. It'll respond with success, or the appropriate error message. You then have to call "brew".
 
 Response:
 JSON - { code:String, success:Boolean, message:String }

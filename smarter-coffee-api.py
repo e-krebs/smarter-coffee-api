@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 import sys
 import socket
-import json
 
 #method names to validate
 API_METHOD_BREW = "brew"
 API_METHOD_RESET = "reset"
+API_METHOD_CUPS = "cups"
 
 #IP address of the smarter coffee machine on your network
 TCP_IP = 'XXX.XXX.XXX.XXX'
@@ -19,6 +19,8 @@ if api_method == API_METHOD_BREW:
 	message_to_send = "7"
 elif api_method == API_METHOD_RESET:
 	message_to_send = "\x10"
+elif api_method == API_METHOD_CUPS and len(sys.argv) > 1:
+	message_to_send = "\x36%s\x7e" % chr(int(sys.argv[2]))
 
 #make connection to machine and send message
 try:
@@ -41,9 +43,11 @@ message=""
 #find out what the machine response means
 if return_code =="\x03\x00~":
 	success=1
-	message="brewing"
+	message="success"
 elif return_code=="\x03\x01~":
 	message="already brewing"
+elif return_code=="\x03\x04~":
+	message="invalid command"
 elif return_code=="\x03\x05~":
 	message="no carafe"
 elif return_code=="\x03\x06~":
@@ -55,7 +59,7 @@ else:
 	message="check machine"
 
 #ouput JSON to whatever called this script
-print json.dumps({'success': success,'message':message,'return_code':repr(data)[1:10]})
+print 'success (n=0,y=1): ' + success + ', message: ' + message+ ', return_code: '+ repr(data)[1:10]
 
 quit()
 sys.exit()
